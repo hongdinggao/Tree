@@ -23,7 +23,7 @@ module rbtree
      procedure :: add => addtree
      procedure :: preorder
      procedure :: inorder
-     !procedure :: deleteValue
+     procedure :: deleteValue
   end type thetree
 
   interface
@@ -62,6 +62,12 @@ module rbtree
         type(node), pointer, intent(inout) :: ptr
      end subroutine fixinsert
 
+     module subroutine fixdelete(tree, ptr)
+        type(thetree), intent(inout) :: tree
+        type(node), pointer, intent(inout) :: ptr
+     end subroutine fixdelete
+
+
      recursive module subroutine addnode(root, newnode) 
         type(node), pointer, intent(inout) :: root
         type(node), pointer, intent(in) :: newnode
@@ -71,6 +77,22 @@ module rbtree
         class(thetree), intent(inout) :: this
         integer(kind=8), intent(in) :: i
      end subroutine addtree
+
+     recursive module function minValueNode(thenode) result(minnode)
+        type(node), pointer, intent(in) :: thenode
+        type(node), pointer :: minnode
+     end function minValueNode
+
+     recursive module function deleteBST(root, i) result(killnode)
+        type(node), pointer, intent(inout) :: root
+        integer(kind=8), intent(in) :: i
+        type(node), pointer :: killnode
+     end function deleteBST
+
+     module subroutine deleteValue(this, i)
+        class(thetree), intent(inout) :: this
+        integer(kind=8), intent(in) :: i
+     end subroutine deleteValue
 
      recursive module subroutine preorderBST(ptr)
         type(node), pointer, intent(in) :: ptr

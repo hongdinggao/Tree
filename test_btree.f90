@@ -25,6 +25,16 @@ call mytree%preorder()
 print *
 
 call mytree%inorder()
+print *
+
+call mytree%deleteValue(A(6))
+
+print *
+call mytree%preorder()
+print *
+
+call mytree%inorder()
+print *
 
 
 end program binary_tree

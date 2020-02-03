@@ -130,6 +130,119 @@ submodule(rbtree) exec
         call setcolor(tree%root, BLACK)
      end procedure fixinsert
 
+     
+    module procedure fixdelete
+       implicit none
+       if (.not.associated(ptr)) return
+       if (associated(ptr, tree%root)) then
+          tree%root => null()
+          return
+       end if
+       if (getcolor(ptr) == RED .or. getcolor(ptr%left) == RED .or. getcolor(ptr%right) == RED) then
+          block
+            type(node), pointer :: child => null()
+            if (associated(ptr%left)) then
+               child => ptr%left
+            else
+               child => ptr%right
+            end if
+            if (associated(ptr, ptr%parent%left)) then
+               ptr%parent%left => child
+               if (associated(child)) then
+                  child%parent => ptr%parent
+               end if
+               call setcolor(child, BLACK)
+               deallocate(ptr)
+            else
+               ptr%parent%right => child
+               if (associated(child)) then
+                  child%parent => ptr%parent
+               end if
+               call setcolor(child, BLACK)
+               deallocate(ptr)
+            end if
+          end block
+       else
+          block
+            type(node), pointer :: sibling => null()
+            type(node), pointer :: parent => null()
+            type(node), pointer :: ptr2 => null()
+            ptr2 => ptr
+            call setcolor(ptr2, DOUBLE_BLACK)
+            do while (.not.associated(ptr2, tree%root) .and. getcolor(ptr2) == DOUBLE_BLACK)
+               parent => ptr2%parent
+               if (associated(ptr2, parent%left)) then
+                  sibling => parent%right
+                  if (getcolor(sibling) == RED) then
+                     call setcolor(sibling, BLACK)
+                     call setcolor(parent, RED)
+                     call rotateleft(tree, parent)
+                  else
+                     if (getcolor(sibling%left) == BLACK .and. getcolor(sibling%right) == BLACK) then
+                        call setcolor(sibling, RED)
+                        if (getcolor(parent) == RED) then
+                           call setcolor(parent, BLACK)
+                        else
+                           call setcolor(parent, DOUBLE_BLACK)
+                        end if
+                        ptr2 => parent
+                     else
+                        if (getcolor(sibling%right) == BLACK) then
+                           call setcolor(sibling%left, BLACK)
+                           call setcolor(sibling, RED)
+                           call rotateright(tree, sibling)
+                           sibling => parent%right
+                        end if
+                        call setcolor(sibling, parent%color)
+                        call setcolor(parent, BLACK)
+                        call setcolor(sibling%right, BLACK)
+                        call rotateleft(tree, parent)
+                        exit
+                     end if
+                  end if
+               else
+                  sibling => parent%left
+                  if (getcolor(sibling) == RED) then
+                     call setcolor(sibling, BLACK)
+                     call setcolor(parent, RED)
+                     call rotateright(tree, parent)
+                  else
+                     if (getcolor(sibling%left) == BLACK .and. getcolor(sibling%right) == BLACK) then
+                        call setcolor(sibling, RED)
+                        if (getcolor(parent) == RED) then
+                           call setcolor(parent, BLACK)
+                        else
+                           call setcolor(parent, DOUBLE_BLACK)
+                        end if
+                        ptr2 => parent
+                     else
+                        if (getcolor(sibling%left) == BLACK) then
+                           call setcolor(sibling%right, BLACK)
+                           call setcolor(sibling, RED)
+                           call rotateleft(tree, sibling)
+                           sibling => parent%left
+                        end if 
+                        call setcolor(sibling, parent%color)
+                        call setcolor(parent, BLACK)
+                        call setcolor(sibling%left, BLACK)
+                        call rotateright(tree, parent)
+                        exit
+                     end if
+                  end if
+               end if
+            end do
+          end block
+          if (associated(ptr, ptr%parent%left)) then
+             ptr%parent%left => null()
+          else
+             ptr%parent%right => null()
+          end if
+          deallocate(ptr)
+          call setcolor(tree%root, BLACK)
+       end if
+    end procedure fixdelete
+
+
 
      module procedure addnode
         implicit none
@@ -144,11 +257,6 @@ submodule(rbtree) exec
         end if
      end procedure addnode
 
-
-
-
-
-
      module procedure addtree
         implicit none
         type(node), pointer :: newnode
@@ -159,6 +267,58 @@ submodule(rbtree) exec
      end procedure addtree
 
 
+     module procedure minValueNode
+        implicit none
+        if (.not.associated(thenode%left)) then
+           minnode => thenode
+        else
+           minnode => minValueNode(thenode%left)
+        end if
+     end procedure minValueNode
+
+
+     module procedure deleteBST
+        implicit none
+        type(node), pointer :: temp => null()
+        if (.not.associated(root)) then
+           killnode => root
+           return
+        end if
+
+        if (i < root%va) then
+           killnode => deleteBST(root%left, i)
+           return
+        end if
+
+        if (i > root%va) then
+           killnode => deleteBST(root%right, i)
+           return
+        end if
+
+        if ((.not.associated(root%left)) .or. (.not.associated(root%right))) then
+           killnode => root
+           return
+        end if
+
+        temp => minValueNode(root%right)
+        root%va = temp%va
+        killnode => deleteBST(root%right, temp%va)
+     end procedure deleteBST
+
+     module procedure deleteValue
+        implicit none
+        type(node), pointer :: delnode => null()
+        delnode => deleteBST(this%root, i)
+        call fixdelete(this, delnode)
+     end procedure deleteValue
+
+
+
+
+
+
+
+     !========== print ============ 
      module procedure preorderBST
         implicit none
         if (.not.associated(ptr)) return
