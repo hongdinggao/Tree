@@ -12,8 +12,8 @@ A = [5,6,21,24,25,65,75,81,85,95]
 print *, "The vector before sorting "
 write(*, '(*(i0, 1x))') A
 
-
-!call init_tree(mytree)
+! constructor
+mytree = thetree()
 
 do i=1, size(A)
     mytree = A(i)

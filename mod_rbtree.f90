@@ -26,11 +26,16 @@ module rbtree
      procedure :: deleteValue
   end type thetree
 
-  interface
-     module subroutine init_tree(tree)
-        type(thetree), intent(out) :: tree
-     end subroutine init_tree
+  ! user_defined constructor for a tree
+  interface thetree 
+     module function init_tree()  result(tree)
+        type(thetree) :: tree
+     end function init_tree
+  end interface 
 
+
+
+  interface
      ! constructor of node
      module subroutine init_node(newnode, va)
         type(node), pointer, intent(inout) :: newnode

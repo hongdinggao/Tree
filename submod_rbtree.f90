@@ -10,6 +10,7 @@ submodule(rbtree) exec
         newnode%parent => null()
      end procedure init_node
 
+     ! tree constructor
      module procedure init_tree
         implicit none
         tree%root => null()
