@@ -56,14 +56,14 @@ module rbtree
 !     end function keys_equal
 !  end interface operator(==)
 
-  interface operator(<)
+  interface operator(.less.)    ! ifort not allow overloading <
      module procedure :: keys_less
-  end interface operator(<)
+  end interface operator(.less.)
 
 
-  interface operator(>)
+  interface operator(.greater.) ! ifort not allow overloading > 
      module procedure :: keys_greater
-  end interface operator(>)
+  end interface operator(.greater.)
 
 
     

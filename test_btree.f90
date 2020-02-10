@@ -9,7 +9,7 @@ character(len=8), allocatable :: A(:)
 real(kind=8) :: t0, t1
 !A = [5,6,21,24,25,65,75,81,85,95]
 !A = [5.5,6.6,21.21,24.24,25.25,65.65,75.75,81.81,85.85,95.95]
-A = ["Aongding", "Biujuan1", "Cordon66", "Diaobo12", "EinXiao2", &
+A = ["Aongding", "Biujuan1", "Cordon66", "Diao o12", "EinXiao2", &
     "Fuguang3", "Giaolei4", "HaoQin88", "HbiYan77", "Hiaoming"]
 
 

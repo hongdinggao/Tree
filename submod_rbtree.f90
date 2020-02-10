@@ -334,7 +334,7 @@ submodule(rbtree) exec
           else
              ptr%parent%right => null()
           end if
-          deallocate(ptr)
+          !deallocate(ptr)
           call setcolor(tree%root, BLACK)
        end if
     end procedure fixdelete
@@ -345,7 +345,7 @@ submodule(rbtree) exec
         implicit none
         if (.not.associated(root)) then 
            root => newnode
-        else if (newnode%va < root%va) then
+        else if (newnode%va .less. root%va) then  ! overloading <
            call addnode(root%left, newnode)
            root%left%parent => root
         else
@@ -382,12 +382,12 @@ submodule(rbtree) exec
            return
         end if
 
-        if (i < root%va) then
+        if (i .less. root%va) then       ! overloading <
            killnode => deleteBST(root%left, i)
            return
         end if
 
-        if (i > root%va) then
+        if (i .greater. root%va) then    ! overloading >
            killnode => deleteBST(root%right, i)
            return
         end if

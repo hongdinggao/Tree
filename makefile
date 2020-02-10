@@ -1,5 +1,6 @@
-FORTRAN=gfortran
-FC = -O3
+FORTRAN=ifort
+FC = -O3 -traceback  # only works for ifort
+#FC = -O3
 SRC :=
 kernel=$(shell uname -r)
 TOOLS = $(Lib_Tools_1.1)
