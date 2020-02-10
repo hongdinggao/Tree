@@ -3,18 +3,114 @@ submodule(rbtree) exec
    contains
      module procedure init_node
         implicit none
+        !allocate(newnode%va, source = va)
+        select type (va)
+        type is (integer)
+           ! OK
+        type is (real)
+           ! OK
+        type is (character(len=*))
+           if (len_trim(va) < 1) error stop "Key cannot be blank"
+        class default
+           error stop "Unknown type used"
+        end select
         newnode%va = va
-        newnode%color = RED
+        newnode%color = RED    ! new node starts with RED
         newnode%left => null()
         newnode%right => null()
         newnode%parent => null()
      end procedure init_node
 
-     ! tree constructor
+
+     ! tree constructor (do not use this)
      module procedure init_tree
         implicit none
         tree%root => null()
      end procedure init_tree
+
+
+!     module procedure keys_equal
+!        implicit none
+!        if (same_type_as(k1, k2)) then
+!           select type (k1)
+!           type is (integer)
+!                 select type (k2)
+!                 type is (integer)
+!                    keys_equal = k1 == k2
+!                 end select
+!           type is (real)
+!                 select type (k2)
+!                 type is (real)
+!                    keys_equal = k1 == k2
+!                 end select
+!           type is (character(len=*))
+!                 select type (k2)
+!                 type is (character(len=*))
+!                    keys_equal = k1 == k2
+!                 end select
+!           class default
+!                 keys_equal = .false.
+!           end select
+!        end if
+!     end procedure keys_equal
+
+
+
+     module procedure keys_less
+        implicit none
+        keys_less = .false.
+        if (same_type_as(k1, k2)) then
+           select type (k1)
+           type is (integer)
+                 select type (k2)
+                 type is (integer)
+                    keys_less = k1 < k2
+                 end select
+           type is (real)
+                 select type (k2)
+                 type is (real)
+                    keys_less = k1 < k2
+                 end select
+           type is (character(len=*))
+                 select type (k2)
+                 type is (character(len=*))
+                    keys_less = k1 < k2
+                 end select
+           !class default
+           !      keys_less = .false.
+           end select
+        end if
+     end procedure keys_less
+
+
+
+     module procedure keys_greater
+        implicit none
+        keys_greater = .false.
+        if (same_type_as(k1, k2)) then
+           select type (k1)
+           type is (integer)
+                 select type (k2)
+                 type is (integer)
+                    keys_greater = k1 > K2
+                 end select
+           type is (real)
+                 select type (k2)
+                 type is (real)
+                    keys_greater = k1 > k2
+                 end select
+           type is (character(len=*))
+                 select type (k2)
+                 type is (character(len=*))
+                    keys_greater = k1 > k2
+                 end select
+           !class default
+           !      keys_greater = .false.
+           end select
+        end if
+     end procedure keys_greater
+
+
 
 
 
@@ -260,7 +356,7 @@ submodule(rbtree) exec
 
      module procedure addtree
         implicit none
-        type(node), pointer :: newnode
+        type(node), pointer :: newnode => null()
         allocate(newnode)
         call init_node(newnode, i)
         call addnode(this%root, newnode)
@@ -323,8 +419,17 @@ submodule(rbtree) exec
      module procedure preorderBST
         implicit none
         if (.not.associated(ptr)) return
-
-        write(*, '(i0, 1x, i0)') ptr%va, ptr%color
+        
+        select type (tova => ptr%va)
+        type is (integer)
+           write(*, '(i0, 1x, i0)') tova, ptr%color
+        type is (real)
+           write(*, '(f8.3, 1x, i0)') tova, ptr%color
+        type is (character(len=*))
+           write(*, '(a, 1x, i0)') tova, ptr%color
+        class default
+           write(*,'(a)') "no type matched"
+        end select
         call preorderBST(ptr%left)
         call preorderBST(ptr%right)
      end procedure preorderBST
@@ -342,7 +447,16 @@ submodule(rbtree) exec
         if (.not.associated(ptr)) return
 
         call inorderBST(ptr%left)
-        write(*, '(i0, 1x, i0)') ptr%va, ptr%color
+        select type (tova => ptr%va)
+        type is (integer)
+           write(*, '(i0, 1x, i0)') tova, ptr%color
+        type is (real)
+           write(*, '(f8.3, 1x, i0)') tova, ptr%color
+        type is (character(len=*))
+           write(*, '(a, 1x, i0)') tova, ptr%color
+        class default
+           write(*,'(a)') "no type matched"
+        end select
         call inorderBST(ptr%right)
      end procedure inorderBST
 

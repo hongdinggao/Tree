@@ -3,17 +3,23 @@ use rbtree
 implicit none
 type(thetree) :: mytree
 integer(kind=8) :: i
-integer(kind=8), allocatable :: A(:)
+!integer, allocatable :: A(:)
+!real, allocatable :: A(:)
+character(len=8), allocatable :: A(:)
 real(kind=8) :: t0, t1
-A = [5,6,21,24,25,65,75,81,85,95]
-!A = [7, 3, 11, 1, 5, 9, 13, 0, 2, 4, 6, 8, 10, 12, 14]
-!A = [64, 90, 85, 91]
+!A = [5,6,21,24,25,65,75,81,85,95]
+!A = [5.5,6.6,21.21,24.24,25.25,65.65,75.75,81.81,85.85,95.95]
+A = ["Aongding", "Biujuan1", "Cordon66", "Diaobo12", "EinXiao2", &
+    "Fuguang3", "Giaolei4", "HaoQin88", "HbiYan77", "Hiaoming"]
+
 
 print *, "The vector before sorting "
-write(*, '(*(i0, 1x))') A
+!write(*, '(*(i0, 1x))') A
+!write(*, '(*(f8.3, 1x))') A
+write(*, '(*(a, 1x))') A
 
 ! constructor
-mytree = thetree()
+!mytree = thetree()
 
 do i=1, size(A)
     mytree = A(i)

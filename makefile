@@ -1,4 +1,4 @@
-FORTRAN=ifort
+FORTRAN=gfortran
 FC = -O3
 SRC :=
 kernel=$(shell uname -r)
