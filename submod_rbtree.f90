@@ -3,18 +3,18 @@ submodule(rbtree) exec
    contains
      module procedure init_node
         implicit none
-        !allocate(newnode%va, source = va)
-        select type (va)
+        !allocate(newnode%key, source = key)
+        select type (key)
         type is (integer)
            ! OK
         type is (real)
            ! OK
         type is (character(len=*))
-           if (len_trim(va) < 1) error stop "Key cannot be blank"
+           if (len_trim(key) < 1) error stop "Key cannot be blank"
         class default
            error stop "Unknown type used"
         end select
-        newnode%va = va
+        newnode%key = key
         newnode%color = RED    ! new node starts with RED
         newnode%left => null()
         newnode%right => null()
@@ -345,7 +345,7 @@ submodule(rbtree) exec
         implicit none
         if (.not.associated(root)) then 
            root => newnode
-        else if (newnode%va .less. root%va) then  ! overloading <
+        else if (newnode%key .less. root%key) then  ! overloading <
            call addnode(root%left, newnode)
            root%left%parent => root
         else
@@ -382,12 +382,12 @@ submodule(rbtree) exec
            return
         end if
 
-        if (i .less. root%va) then       ! overloading <
+        if (i .less. root%key) then       ! overloading <
            killnode => deleteBST(root%left, i)
            return
         end if
 
-        if (i .greater. root%va) then    ! overloading >
+        if (i .greater. root%key) then    ! overloading >
            killnode => deleteBST(root%right, i)
            return
         end if
@@ -398,8 +398,8 @@ submodule(rbtree) exec
         end if
 
         temp => minValueNode(root%right)
-        root%va = temp%va
-        killnode => deleteBST(root%right, temp%va)
+        root%key = temp%key
+        killnode => deleteBST(root%right, temp%key)
      end procedure deleteBST
 
      module procedure deleteValue
@@ -420,13 +420,13 @@ submodule(rbtree) exec
         implicit none
         if (.not.associated(ptr)) return
         
-        select type (tova => ptr%va)
+        select type (tokey => ptr%key)
         type is (integer)
-           write(*, '(i0, 1x, i0)') tova, ptr%color
+           write(*, '(i0, 1x, i0)') tokey, ptr%color
         type is (real)
-           write(*, '(f8.3, 1x, i0)') tova, ptr%color
+           write(*, '(f8.3, 1x, i0)') tokey, ptr%color
         type is (character(len=*))
-           write(*, '(a, 1x, i0)') tova, ptr%color
+           write(*, '(a, 1x, i0)') tokey, ptr%color
         class default
            write(*,'(a)') "no type matched"
         end select
@@ -447,13 +447,13 @@ submodule(rbtree) exec
         if (.not.associated(ptr)) return
 
         call inorderBST(ptr%left)
-        select type (tova => ptr%va)
+        select type (tokey => ptr%key)
         type is (integer)
-           write(*, '(i0, 1x, i0)') tova, ptr%color
+           write(*, '(i0, 1x, i0)') tokey, ptr%color
         type is (real)
-           write(*, '(f8.3, 1x, i0)') tova, ptr%color
+           write(*, '(f8.3, 1x, i0)') tokey, ptr%color
         type is (character(len=*))
-           write(*, '(a, 1x, i0)') tova, ptr%color
+           write(*, '(a, 1x, i0)') tokey, ptr%color
         class default
            write(*,'(a)') "no type matched"
         end select

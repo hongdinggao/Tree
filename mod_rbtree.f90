@@ -7,7 +7,7 @@ module rbtree
   integer, parameter :: DOUBLE_BLACK = 2
 
   type, public :: node
-     class(*), allocatable :: va    ! unlimited polymorphic
+     class(*), allocatable :: key   ! unlimited polymorphic
      integer :: color = RED 
      type(node), pointer :: left => null()
      type(node), pointer :: right => null()
@@ -86,15 +86,15 @@ module rbtree
 
 
      ! constructor of node
-     module subroutine init_node(newnode, va)
+     module subroutine init_node(newnode, key)
         type(node), pointer, intent(inout) :: newnode
-        class(*), intent(in) :: va 
+        class(*), intent(in) :: key
      end subroutine init_node
 
 
-!     module function init_node(va) result(newnode)
+!     module function init_node(key) result(newnode)
 !        type(node), pointer :: newnode
-!        class(*), intent(in) :: va 
+!        class(*), intent(in) :: key
 !     end function init_node
 
      module function getcolor(thenode)
