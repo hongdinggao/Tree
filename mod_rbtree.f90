@@ -27,6 +27,7 @@ module rbtree
      procedure, public :: preorder
      procedure, public :: inorder
      procedure, public :: deleteValue
+     final :: clean_tree
   end type thetree
 
   ! user_defined constructor for a tree, only function allowed
@@ -153,6 +154,17 @@ module rbtree
         class(thetree), intent(inout) :: this
         class(*), intent(in) :: i
      end subroutine deleteValue
+
+     ! destroy the tree
+     module subroutine clean_tree(this)
+         type(thetree), intent(inout) :: this
+     end subroutine clean_tree
+
+     ! destory a node
+     recursive module subroutine kill_node(thenode)
+         type(node), intent(inout) :: thenode
+     end subroutine kill_node
+
 
      recursive module subroutine preorderBST(ptr)
         type(node), pointer, intent(in) :: ptr

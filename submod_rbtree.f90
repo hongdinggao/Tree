@@ -410,7 +410,26 @@ submodule(rbtree) exec
      end procedure deleteValue
 
 
+     ! finalizer
+     module procedure clean_tree
+        implicit none
+        if (associated(this%root)) then
+           call kill_node(this%root)
+           deallocate(this%root)
+        end if
+     end procedure clean_tree
 
+     module procedure kill_node
+        implicit none
+        if (associated(thenode%left)) then
+           call kill_node(thenode%left)
+           deallocate(thenode%left)
+        end if
+        if (associated(thenode%right)) then
+           call kill_node(thenode%right)
+           deallocate(thenode%right)
+        end if
+     end procedure kill_node
 
 
 
