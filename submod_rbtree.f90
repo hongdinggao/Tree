@@ -15,6 +15,7 @@ submodule(rbtree) exec
            error stop "Unknown type used"
         end select
         newnode%key = key
+        allocate(newnode%value, source=value)
         newnode%color = RED    ! new node starts with RED
         newnode%left => null()
         newnode%right => null()
@@ -335,6 +336,8 @@ submodule(rbtree) exec
              ptr%parent%right => null()
           end if
           !deallocate(ptr)
+          if (associated(ptr%value)) deallocate(ptr%value)
+          nullify(ptr%value)
           call setcolor(tree%root, BLACK)
        end if
     end procedure fixdelete
@@ -358,7 +361,7 @@ submodule(rbtree) exec
         implicit none
         type(node), pointer :: newnode => null()
         allocate(newnode)
-        call init_node(newnode, i)
+        call init_node(newnode, i, value)
         call addnode(this%root, newnode)
         call fixinsert(this, newnode)
      end procedure addtree
@@ -441,11 +444,20 @@ submodule(rbtree) exec
         
         select type (tokey => ptr%key)
         type is (integer)
-           write(*, '(i0, 1x, i0)') tokey, ptr%color
+           select type (tovalue => ptr%value)
+           type is (real)
+               write(*, '(i0, 1x, i0, 1x, f8.3)') tokey, ptr%color, tovalue
+           end select
         type is (real)
-           write(*, '(f8.3, 1x, i0)') tokey, ptr%color
+           select type (tovalue => ptr%value)
+           type is (real)
+               write(*, '(f8.3, 1x, i0, 1x, f8.3)') tokey, ptr%color, tovalue
+           end select
         type is (character(len=*))
-           write(*, '(a, 1x, i0)') tokey, ptr%color
+           select type (tovalue => ptr%value)
+           type is (real)
+               write(*, '(a, 1x, i0, 1x, f8.3)') tokey, ptr%color, tovalue
+           end select
         class default
            write(*,'(a)') "no type matched"
         end select
@@ -468,11 +480,20 @@ submodule(rbtree) exec
         call inorderBST(ptr%left)
         select type (tokey => ptr%key)
         type is (integer)
-           write(*, '(i0, 1x, i0)') tokey, ptr%color
+           select type (tovalue => ptr%value)
+           type is (real)
+               write(*, '(i0, 1x, i0, 1x, f8.3)') tokey, ptr%color, tovalue
+           end select
         type is (real)
-           write(*, '(f8.3, 1x, i0)') tokey, ptr%color
+           select type (tovalue => ptr%value)
+           type is (real)
+               write(*, '(f8.3, 1x, i0, 1x, f8.3)') tokey, ptr%color, tovalue
+           end select
         type is (character(len=*))
-           write(*, '(a, 1x, i0)') tokey, ptr%color
+           select type (tovalue => ptr%value)
+           type is (real)
+               write(*, '(a, 1x, i0, 1x, f8.3)') tokey, ptr%color, tovalue
+           end select
         class default
            write(*,'(a)') "no type matched"
         end select

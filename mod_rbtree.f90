@@ -8,6 +8,7 @@ module rbtree
 
   type, public :: node
      class(*), allocatable :: key   ! unlimited polymorphic
+     class(*), pointer :: value => null()  ! the data to hold
      integer :: color = RED 
      type(node), pointer :: left => null()
      type(node), pointer :: right => null()
@@ -20,9 +21,9 @@ module rbtree
      type(node), pointer :: root => null()
      contains
      private
-     generic, public :: assignment(=) => add
+     !generic, public :: assignment(=) => add
      !generic, public :: operator(==) => keys_equal
-     procedure :: add => addtree
+     procedure, public :: add => addtree
      !procedure :: keys_equal
      procedure, public :: preorder
      procedure, public :: inorder
@@ -87,9 +88,10 @@ module rbtree
 
 
      ! constructor of node
-     module subroutine init_node(newnode, key)
+     module subroutine init_node(newnode, key, value)
         type(node), pointer, intent(inout) :: newnode
         class(*), intent(in) :: key
+        class(*), intent(in) :: value
      end subroutine init_node
 
 
@@ -134,9 +136,10 @@ module rbtree
         type(node), pointer, intent(in) :: newnode
      end subroutine addnode
 
-     module subroutine addtree(this, i)
+     module subroutine addtree(this, i, value)
         class(thetree), intent(inout) :: this
         class(*), intent(in) :: i
+        class(*), intent(in) :: value
      end subroutine addtree
 
      recursive module function minValueNode(thenode) result(minnode)
