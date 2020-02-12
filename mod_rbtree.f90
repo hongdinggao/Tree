@@ -25,6 +25,7 @@ module rbtree
      !generic, public :: operator(==) => keys_equal
      procedure, public :: has_key
      procedure, public :: add => addtree
+     procedure, public :: tree_height
      !procedure :: keys_equal
      procedure, public :: preorder
      procedure, public :: inorder
@@ -144,7 +145,7 @@ module rbtree
      end subroutine addtree
 
      module function has_key(this, key)
-        class(thetree), intent(inout) :: this
+        class(thetree), intent(in) :: this
         class(*), intent(in) :: key
         logical :: has_key
      end function has_key
@@ -154,6 +155,16 @@ module rbtree
          class(*), intent(in) :: key
          logical :: find_key
      end function find_key
+
+     module function tree_height(this)
+         class(thetree), intent(in) :: this
+         integer :: tree_height
+     end function tree_height
+
+     recursive module function find_height(ptr)
+         type(node), pointer, intent(in) :: ptr
+         integer :: find_height
+     end function find_height
 
      recursive module function minValueNode(thenode) result(minnode)
         type(node), pointer, intent(in) :: thenode

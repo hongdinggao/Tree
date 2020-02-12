@@ -39,6 +39,8 @@ print *
 call mytree%inorder()
 print *
 
+print*, "The height of the tree is ", mytree%tree_height()
+
 call mytree%deleteValue(A(6))
 
 print *
@@ -47,6 +49,8 @@ print *
 
 call mytree%inorder()
 print *
+
+print*, "The height of the tree is ", mytree%tree_height()
 
 
 end program binary_tree
