@@ -23,6 +23,7 @@ module rbtree
      private
      !generic, public :: assignment(=) => add
      !generic, public :: operator(==) => keys_equal
+     procedure, public :: has_key
      procedure, public :: add => addtree
      !procedure :: keys_equal
      procedure, public :: preorder
@@ -141,6 +142,18 @@ module rbtree
         class(*), intent(in) :: i
         class(*), intent(in) :: value
      end subroutine addtree
+
+     module function has_key(this, key)
+        class(thetree), intent(inout) :: this
+        class(*), intent(in) :: key
+        logical :: has_key
+     end function has_key
+
+     recursive module function find_key(ptr, key)
+         type(node), pointer, intent(inout) :: ptr
+         class(*), intent(in) :: key
+         logical :: find_key
+     end function find_key
 
      recursive module function minValueNode(thenode) result(minnode)
         type(node), pointer, intent(in) :: thenode

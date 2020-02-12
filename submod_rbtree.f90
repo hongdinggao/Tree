@@ -366,6 +366,23 @@ submodule(rbtree) exec
         call fixinsert(this, newnode)
      end procedure addtree
 
+     module procedure has_key
+        implicit none
+        has_key = find_key(this%root, key)
+     end procedure has_key
+
+     module procedure find_key
+        implicit none
+        if (.not.associated(ptr)) then
+           find_key = .false.     ! base case (end of branch)
+        else if (key .less. ptr%key) then
+           find_key = find_key(ptr%left, key)  ! recursion to left branch
+        else if (key .greater. ptr%key) then
+           find_key = find_key(ptr%right, key) ! recursion to right branch
+        else 
+           find_key = .true.      ! base case (found)
+        end if
+     end procedure find_key
 
      module procedure minValueNode
         implicit none

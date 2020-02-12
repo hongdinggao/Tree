@@ -26,7 +26,10 @@ write(*, '(*(a, 1x))') A
 do i=1, size(A)
     !mytree = A(i)
     call mytree%add(A(i), B(i))
+    print*, mytree%has_key(A(i))
 end do
+
+print*, mytree%has_key("Hongding")
 
 print*, "Show the tree "
 print *
