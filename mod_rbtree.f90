@@ -1,4 +1,5 @@
 module rbtree
+  use mod_rowcol
   implicit none
   !public :: init_tree
   private
@@ -70,16 +71,23 @@ module rbtree
      module procedure :: keys_greater
   end interface operator(.greater.)
 
+  
+  interface operator(<)    ! extends to derived type
+     module procedure :: keys_less_extends
+  end interface operator(<)
 
-    
+
+  interface operator(>) ! extends to derived type 
+     module procedure :: keys_greater_extends
+  end interface operator(>)
+
+
+
   interface
      pure module function keys_less(k1, k2)
         class(*), intent(in) :: k1, k2
         logical :: keys_less
      end function keys_less
-
-
-
 
      pure module function keys_greater(k1, k2)
         class(*), intent(in) :: k1, k2
@@ -87,6 +95,15 @@ module rbtree
      end function keys_greater
 
 
+     pure module function keys_less_extends(k1, k2)
+        type(rowcol), intent(in) :: k1, k2
+        logical :: keys_less_extends
+     end function keys_less_extends
+
+     pure module function keys_greater_extends(k1, k2)
+        type(rowcol), intent(in) :: k1, k2
+        logical :: keys_greater_extends
+     end function keys_greater_extends
 
 
 

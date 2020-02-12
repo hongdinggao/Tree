@@ -5,6 +5,8 @@ submodule(rbtree) exec
         implicit none
         !allocate(newnode%key, source = key)
         select type (key)
+        class is (rowcol)
+           ! OK
         type is (integer)
            ! OK
         type is (real)
@@ -62,6 +64,11 @@ submodule(rbtree) exec
         keys_less = .false.
         if (same_type_as(k1, k2)) then
            select type (k1)
+           class is (rowcol)
+                 select type (k2)
+                 class is (rowcol)
+                    keys_less = k1 < k2
+                 end select
            type is (integer)
                  select type (k2)
                  type is (integer)
@@ -90,6 +97,11 @@ submodule(rbtree) exec
         keys_greater = .false.
         if (same_type_as(k1, k2)) then
            select type (k1)
+           class is (rowcol)
+                 select type (k2)
+                 class is (rowcol)
+                    keys_greater = k1 > K2
+                 end select
            type is (integer)
                  select type (k2)
                  type is (integer)
@@ -113,6 +125,27 @@ submodule(rbtree) exec
 
 
 
+     module procedure keys_less_extends
+        implicit none
+        if (k1%row < k2%row) then
+           keys_less_extends = .true.
+        else if ((k1%row ==  k2%row) .and. (k1%col <  k2%col)) then
+           keys_less_extends = .true.
+        else 
+           keys_less_extends = .false.
+        end if
+     end procedure keys_less_extends
+
+     module procedure keys_greater_extends
+        implicit none
+        if (k1%row > k2%row) then
+           keys_greater_extends = .true.
+        else if ((k1%row ==  k2%row) .and. (k1%col >  k2%col)) then
+           keys_greater_extends = .true.
+        else 
+           keys_greater_extends = .false.
+        end if
+     end procedure keys_greater_extends
 
 
      module procedure getcolor
@@ -485,6 +518,11 @@ submodule(rbtree) exec
         if (.not.associated(ptr)) return
         
         select type (tokey => ptr%key)
+        class is (rowcol)
+           select type (tovalue => ptr%value)
+           type is (real)
+               write(*, '(i0, 1x, i0, 1x, i0, 1x, f8.3)') tokey%row, tokey%col, ptr%color, tovalue
+           end select
         type is (integer)
            select type (tovalue => ptr%value)
            type is (real)
@@ -521,6 +559,11 @@ submodule(rbtree) exec
 
         call inorderBST(ptr%left)
         select type (tokey => ptr%key)
+        class is (rowcol)
+           select type (tovalue => ptr%value)
+           type is (real)
+               write(*, '(i0, 1x, i0, 1x, i0, 1x, f8.3)') tokey%row, tokey%col, ptr%color, tovalue
+           end select
         type is (integer)
            select type (tovalue => ptr%value)
            type is (real)
