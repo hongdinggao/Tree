@@ -396,6 +396,19 @@ submodule(rbtree) exec
         find_height = 1 + max(find_height(ptr%left), find_height(ptr%right))
      end procedure find_height
 
+     module procedure tree_size
+        implicit none
+        tree_size = find_size(this%root)
+     end procedure tree_size
+
+
+     module procedure find_size
+        implicit none
+        find_size = 0
+        if (.not.associated(ptr)) return
+        find_size = 1 + find_size(ptr%left) + find_size(ptr%right)
+     end procedure find_size
+
      module procedure minValueNode
         implicit none
         if (.not.associated(thenode%left)) then

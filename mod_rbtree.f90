@@ -26,6 +26,7 @@ module rbtree
      procedure, public :: has_key
      procedure, public :: add => addtree
      procedure, public :: tree_height
+     procedure, public :: tree_size      ! total nodes
      !procedure :: keys_equal
      procedure, public :: preorder
      procedure, public :: inorder
@@ -165,6 +166,19 @@ module rbtree
          type(node), pointer, intent(in) :: ptr
          integer :: find_height
      end function find_height
+
+
+     module function tree_size(this)
+         class(thetree), intent(in) :: this
+         integer :: tree_size
+     end function tree_size
+
+
+     recursive module function find_size(ptr)
+         type(node), pointer, intent(in) :: ptr
+         integer :: find_size
+     end function find_size
+
 
      recursive module function minValueNode(thenode) result(minnode)
         type(node), pointer, intent(in) :: thenode
