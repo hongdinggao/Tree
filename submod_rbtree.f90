@@ -521,12 +521,12 @@ submodule(rbtree) exec
         class is (rowcol)
            select type (tovalue => ptr%value)
            type is (real)
-               write(*, '(i0, 1x, i0, 1x, i0, 1x, f8.3)') tokey%row, tokey%col, ptr%color, tovalue
+               write(*, '(3(i0, 1x), f8.3)') tokey%row, tokey%col, ptr%color, tovalue
            end select
         type is (integer(int64))
            select type (tovalue => ptr%value)
            type is (real)
-               write(*, '(i0, 1x, i0, 1x, f8.3)') tokey, ptr%color, tovalue
+               write(*, '(2(i0, 1x), f8.3)') tokey, ptr%color, tovalue
            end select
         type is (real)
            select type (tovalue => ptr%value)
@@ -562,12 +562,12 @@ submodule(rbtree) exec
         class is (rowcol)
            select type (tovalue => ptr%value)
            type is (real)
-               write(*, '(i0, 1x, i0, 1x, i0, 1x, f8.3)') tokey%row, tokey%col, ptr%color, tovalue
+               write(*, '(3(i0, 1x), f8.3)') tokey%row, tokey%col, ptr%color, tovalue
            end select
         type is (integer(int64))
            select type (tovalue => ptr%value)
            type is (real)
-               write(*, '(i0, 1x, i0, 1x, f8.3)') tokey, ptr%color, tovalue
+               write(*, '(2(i0, 1x), f8.3)') tokey, ptr%color, tovalue
            end select
         type is (real)
            select type (tovalue => ptr%value)
