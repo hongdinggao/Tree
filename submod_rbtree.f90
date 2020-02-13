@@ -7,7 +7,7 @@ submodule(rbtree) exec
         select type (key)
         class is (rowcol)
            ! OK
-        type is (integer)
+        type is (integer(int64))
            ! OK
         type is (real)
            ! OK
@@ -36,9 +36,9 @@ submodule(rbtree) exec
 !        implicit none
 !        if (same_type_as(k1, k2)) then
 !           select type (k1)
-!           type is (integer)
+!           type is (integer(int64))
 !                 select type (k2)
-!                 type is (integer)
+!                 type is (integer(int64))
 !                    keys_equal = k1 == k2
 !                 end select
 !           type is (real)
@@ -69,9 +69,9 @@ submodule(rbtree) exec
                  class is (rowcol)
                     keys_less = k1 < k2
                  end select
-           type is (integer)
+           type is (integer(int64))
                  select type (k2)
-                 type is (integer)
+                 type is (integer(int64))
                     keys_less = k1 < k2
                  end select
            type is (real)
@@ -102,9 +102,9 @@ submodule(rbtree) exec
                  class is (rowcol)
                     keys_greater = k1 > K2
                  end select
-           type is (integer)
+           type is (integer(int64))
                  select type (k2)
-                 type is (integer)
+                 type is (integer(int64))
                     keys_greater = k1 > K2
                  end select
            type is (real)
@@ -523,7 +523,7 @@ submodule(rbtree) exec
            type is (real)
                write(*, '(i0, 1x, i0, 1x, i0, 1x, f8.3)') tokey%row, tokey%col, ptr%color, tovalue
            end select
-        type is (integer)
+        type is (integer(int64))
            select type (tovalue => ptr%value)
            type is (real)
                write(*, '(i0, 1x, i0, 1x, f8.3)') tokey, ptr%color, tovalue
@@ -564,7 +564,7 @@ submodule(rbtree) exec
            type is (real)
                write(*, '(i0, 1x, i0, 1x, i0, 1x, f8.3)') tokey%row, tokey%col, ptr%color, tovalue
            end select
-        type is (integer)
+        type is (integer(int64))
            select type (tovalue => ptr%value)
            type is (real)
                write(*, '(i0, 1x, i0, 1x, f8.3)') tokey, ptr%color, tovalue

@@ -1,15 +1,16 @@
 program binary_tree
+use, intrinsic :: iso_fortran_env
 use rbtree
 use mod_rowcol
 implicit none
 type(thetree) :: mytree
-integer(kind=8) :: i
+integer(int64) :: i
 !integer, allocatable :: A(:)
 !real, allocatable :: A(:)
 !character(len=8), allocatable :: A(:)
 type(rowcol), allocatable :: A(:)
 real, allocatable :: B(:)
-real(kind=8) :: t0, t1
+real(real64) :: t0, t1
 !A = [5,6,21,24,25,65,75,81,85,95]
 !A = [5.5,6.6,21.21,24.24,25.25,65.65,75.75,81.81,85.85,95.95]
 !A = ["Aongding", "Biujuan1", "Cordon66", "Diao o12", "EinXiao2", &

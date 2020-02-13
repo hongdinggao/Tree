@@ -1,8 +1,9 @@
 module mod_rowcol
+   use, intrinsic :: iso_fortran_env
    implicit none
    private
    type, public :: rowcol
-      integer :: row = 0
-      integer :: col = 0
+      integer(int64) :: row = 0
+      integer(int64) :: col = 0
    end type rowcol
 end module mod_rowcol
