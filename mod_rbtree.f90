@@ -1,5 +1,5 @@
 module rbtree
-  use, intrinsic :: iso_fortran_env
+  use, intrinsic :: iso_fortran_env, only: int8, int16, int32, int64, real32, real64, character_kinds
   use mod_rowcol
   implicit none
   !public :: init_tree
