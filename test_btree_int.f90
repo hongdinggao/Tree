@@ -15,18 +15,18 @@ real(real64) :: t0, t1
 !A = [5.5,6.6,21.21,24.24,25.25,65.65,75.75,81.81,85.85,95.95]
 !A = ["Aongding", "Biujuan1", "Cordon66", "Diao o12", "EinXiao2", &
 !    "Fuguang3", "Giaolei4", "HaoQin88", "HbiYan77", "Hiaoming"]
-allocate(A(10))
-do i=1, 10
+allocate(A(1000))
+do i=1, 1000
    A(i) = i
 end do
 
 B = [1.11, 2.22, 3.33, 4.44, 5.55, 6.66, 7.77, 8.88, 9.99, 10.10]
 
-print *, "The vector before sorting "
+!!print *, "The vector before sorting "
 !write(*, '(*(i0, 1x))') A
 !write(*, '(*(f8.3, 1x))') A
 !write(*, '(*(a, 1x))') A
-write(*, '(*(g0, 1x))') A
+!!write(*, '(*(g0, 1x))') A
 
 ! constructor
 !mytree = thetree()
@@ -45,25 +45,25 @@ print*, mytree%has_key(A(6))
 call cpu_time(t1)
 print*, "Time of check the key ", t1 - t0
 
-print*, "Show the tree "
-print *
-call mytree%preorder()
-print *
+!print*, "Show the tree "
+!print *
+!call mytree%preorder()
+!print *
 
-call mytree%inorder()
-print *
+!call mytree%inorder()
+!print *
 
 print*, "The height of the tree is ", mytree%tree_height()
 print*, "The total number of nodes is ", mytree%tree_size()
 
 call mytree%deleteValue(A(6))
 
-print *
-call mytree%preorder()
-print *
+!print *
+!call mytree%preorder()
+!print *
 
-call mytree%inorder()
-print *
+!call mytree%inorder()
+!print *
 
 print*, "The height of the tree is ", mytree%tree_height()
 print*, "The number of nodes now is ", mytree%tree_size()
