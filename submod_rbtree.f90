@@ -417,6 +417,29 @@ submodule(rbtree) exec
         end if
      end procedure find_key
 
+     module procedure get_value
+        implicit none
+        class(*), pointer :: pva => null()
+        pva => find_value(this%root, key)
+        select type (pva)
+        type is (real)
+            write(*, '(f8.3)') pva 
+        end select
+     end procedure get_value
+
+     module procedure find_value
+        implicit none
+        if (.not.associated(ptr)) then
+           error stop "Tree has NOT set up"
+        else if (key .less. ptr%key) then
+           pva => find_value(ptr%left, key)
+        else if (key .greater. ptr%key) then
+           pva => find_value(ptr%right, key)
+        else
+           pva => ptr%value
+        end if
+     end procedure find_value
+
      module procedure tree_height
         implicit none
         tree_height = find_height(this%root)

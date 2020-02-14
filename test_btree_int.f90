@@ -15,8 +15,8 @@ real(real64) :: t0, t1
 !A = [5.5,6.6,21.21,24.24,25.25,65.65,75.75,81.81,85.85,95.95]
 !A = ["Aongding", "Biujuan1", "Cordon66", "Diao o12", "EinXiao2", &
 !    "Fuguang3", "Giaolei4", "HaoQin88", "HbiYan77", "Hiaoming"]
-allocate(A(1000))
-do i=1, 1000
+allocate(A(10))
+do i=1, 10
    A(i) = i
 end do
 
@@ -45,13 +45,19 @@ print*, mytree%has_key(A(6))
 call cpu_time(t1)
 print*, "Time of check the key ", t1 - t0
 
-!print*, "Show the tree "
-!print *
-!call mytree%preorder()
-!print *
 
-!call mytree%inorder()
-!print *
+call cpu_time(t0)
+call  mytree%get(A(6))
+call cpu_time(t1)
+print*, "Time of get the value ", t1 - t0
+
+print*, "Show the tree "
+print *
+call mytree%preorder()
+print *
+
+call mytree%inorder()
+print *
 
 print*, "The height of the tree is ", mytree%tree_height()
 print*, "The total number of nodes is ", mytree%tree_size()

@@ -26,6 +26,7 @@ module rbtree
      !generic, public :: assignment(=) => add
      !generic, public :: operator(==) => keys_equal
      procedure, public :: has_key
+     procedure, public :: get => get_value
      procedure, public :: add => addtree
      procedure, public :: tree_height
      procedure, public :: tree_size      ! total nodes
@@ -174,6 +175,18 @@ module rbtree
          class(*), intent(in) :: key
          logical :: find_key
      end function find_key
+
+     module subroutine get_value(this, key) 
+        class(thetree), intent(in) :: this
+        class(*), intent(in) :: key
+     end subroutine get_value
+
+     recursive module function find_value(ptr, key) result(pva)
+         type(node), pointer, intent(inout) :: ptr
+         class(*), intent(in) :: key
+         class(*), pointer :: pva
+     end function find_value
+
 
      module function tree_height(this)
          class(thetree), intent(in) :: this
