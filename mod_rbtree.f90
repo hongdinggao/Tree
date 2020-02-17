@@ -165,7 +165,7 @@ module rbtree
      end subroutine addtree
 
      module function has_key(this, key)
-        class(thetree), intent(in) :: this
+        class(thetree), intent(inout) :: this
         class(*), intent(in) :: key
         logical :: has_key
      end function has_key
@@ -177,7 +177,7 @@ module rbtree
      end function find_key
 
      module subroutine get_value(this, key) 
-        class(thetree), intent(in) :: this
+        class(thetree), intent(inout) :: this
         class(*), intent(in) :: key
      end subroutine get_value
 
