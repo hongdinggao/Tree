@@ -407,13 +407,13 @@ submodule(rbtree) exec
      module procedure find_key
         implicit none
         if (.not.associated(ptr)) then
-           find_key = .false.     ! base case (end of branch)
+           found = .false.     ! base case (end of branch)
         else if (key .less. ptr%key) then
-           find_key = find_key(ptr%left, key)  ! recursion to left branch
+           found = find_key(ptr%left, key)  ! recursion to left branch
         else if (key .greater. ptr%key) then
-           find_key = find_key(ptr%right, key) ! recursion to right branch
+           found = find_key(ptr%right, key) ! recursion to right branch
         else 
-           find_key = .true.      ! base case (found)
+           found = .true.      ! base case (found)
         end if
      end procedure find_key
 
@@ -447,9 +447,9 @@ submodule(rbtree) exec
 
      module procedure find_height
         implicit none
-        find_height = 0
+        height = 0
         if (.not.associated(ptr)) return
-        find_height = 1 + max(find_height(ptr%left), find_height(ptr%right))
+        height = 1 + max(find_height(ptr%left), find_height(ptr%right))
      end procedure find_height
 
      module procedure tree_size
@@ -460,9 +460,9 @@ submodule(rbtree) exec
 
      module procedure find_size
         implicit none
-        find_size = 0
+        the_size = 0
         if (.not.associated(ptr)) return
-        find_size = 1 + find_size(ptr%left) + find_size(ptr%right)
+        the_size = 1 + find_size(ptr%left) + find_size(ptr%right)
      end procedure find_size
 
      module procedure minValueNode

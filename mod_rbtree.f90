@@ -170,10 +170,10 @@ module rbtree
         logical :: has_key
      end function has_key
 
-     recursive module function find_key(ptr, key)
+     recursive module function find_key(ptr, key) result(found)
          type(node), pointer, intent(inout) :: ptr
          class(*), intent(in) :: key
-         logical :: find_key
+         logical :: found
      end function find_key
 
      module subroutine get_value(this, key) 
@@ -193,9 +193,9 @@ module rbtree
          integer :: tree_height
      end function tree_height
 
-     recursive module function find_height(ptr)
+     recursive module function find_height(ptr) result(height)
          type(node), pointer, intent(in) :: ptr
-         integer :: find_height
+         integer :: height
      end function find_height
 
 
@@ -205,9 +205,9 @@ module rbtree
      end function tree_size
 
 
-     recursive module function find_size(ptr)
+     recursive module function find_size(ptr) result(the_size)
          type(node), pointer, intent(in) :: ptr
-         integer :: find_size
+         integer :: the_size
      end function find_size
 
 
